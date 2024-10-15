@@ -1,0 +1,96 @@
+<!-- <!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Usuario</title>
+  </head>
+  <body>
+    <h1>Registro de Usuario</h1>
+    <label for="userId">ID de Usuario:</label>
+    <input type="text" id="userId" placeholder="Ingresa tu ID de usuario" />
+    <button id="start">Iniciar Registro</button>
+
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="capture">Capturar Imagen</button>
+
+    <script>
+      const video = document.getElementById("video");
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      const startButton = document.getElementById("start");
+      const captureButton = document.getElementById("capture");
+      let userId = "";
+
+      // Acceder a la cámara
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          video.srcObject = stream;
+        })
+        .catch((err) => {
+          console.error("Error accediendo a la cámara: ", err);
+        });
+
+      startButton.addEventListener("click", () => {
+        userId = document.getElementById("userId").value;
+        if (!userId) {
+          alert("Por favor ingresa un ID de usuario");
+          return;
+        }
+        startCapture();
+      });
+
+      captureButton.addEventListener("click", () => {
+        captureImage();
+      });
+
+      function startCapture() {
+        // Iniciar captura de imágenes
+        // ...
+      }
+
+      function captureImage() {
+        // Capturar la imagen del video
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const imageData = canvas.toDataURL("image/jpeg");
+        sendImageToServer(imageData);
+      }
+
+      function sendImageToServer(imageData) {
+        fetch("http://127.0.0.1:5000/registro", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ image: imageData, userId: userId }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Respuesta del servidor: ", data);
+          })
+          .catch((error) => {
+            console.error("Error: ", error);
+          });
+      }
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registrar Rostro</title>
+  </head>
+  <body>
+    <h1>Registrar Rostro</h1>
+    <form action="{{ url_for('register') }}" method="post">
+      <label for="user_id">ID de Usuario:</label>
+      <input type="text" id="user_id" name="user_id" required />
+      <button type="submit">Registrar</button>
+    </form>
+  </body>
+</html>

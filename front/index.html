@@ -1,0 +1,72 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reconocimiento Facial</title>
+  </head>
+  <body>
+    <h1>Reconocimiento Facial</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="capture-btn">Capturar y Reconocer</button>
+    <canvas id="canvas" width="640" height="480" style="display: none"></canvas>
+    <p id="resultado"></p>
+
+    <script>
+      // Acceder a la cámara
+      const video = document.getElementById("video");
+
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          video.srcObject = stream;
+        })
+        .catch((err) => {
+          console.error("Error al acceder a la cámara: ", err);
+        });
+
+      // Capturar imagen y enviarla al backend
+      const captureBtn = document.getElementById("capture-btn");
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const resultado = document.getElementById("resultado");
+
+      captureBtn.addEventListener("click", () => {
+        // Dibujar el video en el canvas para obtener la imagen
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Convertir la imagen a base64
+        const imageData = canvas
+          .toDataURL("image/jpeg")
+          .replace(/^data:image\/(png|jpeg);base64,/, "");
+
+        fetch("http://127.0.0.1:5000/reconocer", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ image: imageData }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            resultado.textContent = data.mensaje;
+            if (data.nombre !== "Desconocido") {
+              alert("Usuario desconocido");
+            }
+          })
+          .catch((err) => console.error("Error al enviar imagen:", err));
+      });
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Aplicación de Registro de Rostros</title>
+  </head>
+  <body>
+    <h1>Aplicación de Registro de Rostros</h1>
+    <a href="{{ url_for('register') }}">Registrar Rostro</a>
+  </body>
+</html>
